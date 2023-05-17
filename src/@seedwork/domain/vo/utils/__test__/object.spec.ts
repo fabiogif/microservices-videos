@@ -14,7 +14,6 @@ describe('object Unit Test', ()=>{
         const num = deepFreeze(5);
         expect(typeof num).toBe("number");
      });
-
      it("should be a immutable object", () => {
         const obj = deepFreeze({
             prop1: "value1",
@@ -26,5 +25,4 @@ describe('object Unit Test', ()=>{
             "Cannot assign to read only property 'prop1' of object '#<Object>'"
         );
      });
-
 });
