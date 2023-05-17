@@ -129,5 +129,12 @@ describe('Category Tests', () => {
         });
     })
 
+    it( "should update category", () => {
+        const category = new Category({ name: "Movie"});
+        category.update("Sport", "some description");
+        expect(category.name).toBe("Sport");
+        expect(category.description).toBe("some description")
+    });
+
 })
 
