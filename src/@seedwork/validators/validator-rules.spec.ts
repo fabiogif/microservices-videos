@@ -14,22 +14,23 @@ type ExpectedRule = {
     params?: any[];
 
 }
-function assertIsInvalid({value, property, rule , error, params = []}:ExpectedRule){
+function assertIsInvalid(expected: ExpectedRule){
     expect( () => {
-       const validator =  ValidatorRules.values(value, property);
-       const method = validator[rule];
-       method.apply(validator, params);
-    }).toThrow(error);
+        runRule(expected);
+    }).toThrow(expected.error);
 }
 
-function assertIsValid({value, property, rule , error, params = []}:ExpectedRule ){
+function assertIsValid(expected: ExpectedRule){
     expect( () => {
-        const validator =  ValidatorRules.values(value, property);
-        const method = validator[rule];
-        method.apply(validator, params);
-     }).not.toThrow(error);
+        runRule(expected);
+    }).not.toThrow(expected.error);
 }
 
+function runRule({ value, property, rule, params = []}: Omit<ExpectedRule, "error">){
+    const validator =  ValidatorRules.values(value, property);
+    const method = validator[rule];
+    method.apply(validator, params);
+}
 
 describe("ValidatorRules unit Test", () =>{
     test("values method", () =>{
@@ -75,7 +76,9 @@ describe("ValidatorRules unit Test", () =>{
         });
      
         arrange = [
-            {value: "test", property: 'field'}
+            {value: "test", property: 'field'},
+            {value: null, property: 'field'},
+            {value: undefined, property: 'field'}
         ];
 
           arrange.forEach( item =>{
@@ -94,11 +97,50 @@ describe("ValidatorRules unit Test", () =>{
         });
 
         arrange = [
-            {value: "aaaaa", property: 'field'}
+            {value: "aaaaa", property: 'field'},
+            {value: null, property: 'field'},
+            {value: undefined, property: 'field'}
         ];
         arrange.forEach( item =>{
             assertIsValid({value: item.value, property: item.property, rule: 'maxlength', error: erroMenssage, params:[5]})
         });
+    });
+
+    test("boolean validation rule", () =>{
+        let arrange: Values[] = [
+            {value: 5 , property: 'field'},
+            {value: "false" , property: 'field'},
+            {value: "aaaaaa", property: 'field'},
+        ];
+        const erroMenssage = new ValidationError('O field deve ser um booleano');
+
+        arrange.forEach( item =>{
+            assertIsInvalid({value: item.value, property: item.property, rule: 'boolean', error: erroMenssage, params:[5]})
+        });
+
+        arrange = [
+            {value: false, property: 'field'},
+            {value: true, property: 'field'}
+        ];
+        arrange.forEach( item =>{
+            assertIsValid({value: item.value, property: item.property, rule: 'boolean', error: erroMenssage, params:[5]})
+        });
+    });
+
+    it("should combine two or more validation rules", ()=>{
+        let validator = ValidatorRules.values(null, "field");
+        expect(() => {validator.required().string()}).toThrow( new ValidationError("Preencha field o campo"));
+        
+        validator =  ValidatorRules.values(5, "field");
+        expect(() => {validator.required().string()}).toThrow( new ValidationError("O campo field precisa ser uma string"));
+
+        validator =  ValidatorRules.values("aaaaaa", "field");
+
+        expect(() => {
+            validator.required().string().maxlength(5);
+        }).toThrow( new ValidationError("O campo field precisa ser menor que 5"));
+
+
     });
 
 });
