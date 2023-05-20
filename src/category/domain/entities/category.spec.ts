@@ -4,12 +4,16 @@ import UniqueEntityId from "../../../@seedwork/domain/vo/unique-entity-id.vo";
 
 
 describe('Category Tests', () => {
+    beforeEach(() =>{
+        Category.validate = jest.fn();
+    });
     test('constructor of category', () => {
-
+        Category.validate = jest.fn();
        let category = new Category({
             name: 'Movie'
         }, null);
         let props = omit( category.props, 'created_at');
+        expect(Category.validate).toHaveBeenCalled()
         expect( category.props.created_at).toBeInstanceOf(Date);
 
         category = new Category({
@@ -132,9 +136,20 @@ describe('Category Tests', () => {
     it( "should update category", () => {
         const category = new Category({ name: "Movie"});
         category.update("Sport", "some description");
+        expect(Category.validate).toHaveBeenCalledTimes(2);
+
         expect(category.name).toBe("Sport");
         expect(category.description).toBe("some description")
     });
+
+    it("should active a category", () =>{
+        const category = new Category({
+            name: "Movies",
+            is_active: false,
+        });
+        category.activated()
+        expect(category.is_active).toBeTruthy();
+    })
 
 })
 
