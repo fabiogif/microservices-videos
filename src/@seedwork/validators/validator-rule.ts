@@ -1,4 +1,3 @@
-import exp from "constants";
 import ValidationError from "../errors/validation-error";
 
 export default class ValidatorRules{

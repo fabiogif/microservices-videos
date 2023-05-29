@@ -12,7 +12,6 @@ describe('Category Tests', () => {
        let category = new Category({
             name: 'Movie'
         }, null);
-        let props = omit( category.props, 'created_at');
         expect(Category.validate).toHaveBeenCalled()
         expect( category.props.created_at).toBeInstanceOf(Date);
 
