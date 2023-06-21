@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength, isDate } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength, IsDate } from "class-validator";
 import { ClassValidatorFields } from "../../../@seedwork/validators/class-validator-fields";
 import { CategoryProperties } from "../entities/category";
 
@@ -17,7 +17,7 @@ export class CategoryRules {
     @IsOptional()
     is_active: string;
 
-    @isDate()
+    @IsDate()
     @IsOptional()
     created_at: Date;
 

@@ -26,11 +26,23 @@
 		// Configure properties specific to VS Code.
 		"vscode": {
 		  // Add the IDs of extensions you want installed when the container is created.
-		  "extensions": ["ms-vscode.vscode-typescript-next", "ms-azuretools.vscode-docker", "firsttris.vscode-jest-runner",
-		  "firsttris.vscode-jest-runner","orta.vscode-jest","donjayamanne.git-extension-pack",
-		  "eamodio.gitlens","donjayamanne.githistory", "SonarSource.sonarlint-vscode",
-		  "dbaeumer.vscode-eslint", "rvest.vs-code-prettier-eslint","formulahendry.docker-explorer",
-		   "esbenp.prettier-vscode", "MS-CEINTL.vscode-language-pack-pt-BR"]
+		  "extensions": [
+			"ms-vscode.vscode-typescript-next",
+			"ms-azuretools.vscode-docker",
+			"firsttris.vscode-jest-runner",
+			"firsttris.vscode-jest-runner",
+			"orta.vscode-jest",
+			"donjayamanne.git-extension-pack",
+			"eamodio.gitlens",
+			"donjayamanne.githistory",
+			"SonarSource.sonarlint-vscode",
+			"dbaeumer.vscode-eslint",
+			"rvest.vs-code-prettier-eslint",
+			"formulahendry.docker-explorer",
+			"esbenp.prettier-vscode",
+			"MS-CEINTL.vscode-language-pack-pt-BR",
+			"GitHub.copilot"
+		]
 		}
 	  }
 	// Features to add to the dev container. More info: https://containers.dev/features.
