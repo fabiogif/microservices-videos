@@ -64,9 +64,7 @@ export class Category extends Entity<CategoryProperties>{
         ValidatorRules.values(props.name, 'name').required().string().maxlength(255);
         ValidatorRules.values(props.is_active, 'is_active').boolean();
         ValidatorRules.values(props.description, 'description').string();
-
     }
-    
 }
 
 

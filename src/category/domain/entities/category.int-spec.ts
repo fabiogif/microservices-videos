@@ -16,7 +16,7 @@ describe("Category integration test", () =>{
                 new ValidationError( "O campo name precisa ser menor que 255")
             );
             expect(() => new Category({name: 5 as any })).toThrow(
-                new ValidationError( "O name deve ser uma string")
+                new ValidationError( "O campo name precisa ser uma string")
             );
         })
     
