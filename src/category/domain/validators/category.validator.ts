@@ -1,10 +1,24 @@
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength, isDate } from "class-validator";
 import { ClassValidatorFields } from "../../../@seedwork/validators/class-validator-fields";
 import { CategoryProperties } from "../entities/category";
 
-export class CategoryRule {
+export class CategoryRules {
+   
+    @MaxLength(255)
+    @IsString()
+    @IsNotEmpty()
     name: string;
+
+    @IsString()
+    @IsOptional()
     description: string;
+
+    @IsBoolean()
+    @IsOptional()
     is_active: string;
+
+    @isDate()
+    @IsOptional()
     created_at: Date;
 
     constructor({name, description, is_active, created_at} : CategoryProperties){
@@ -12,9 +26,15 @@ export class CategoryRule {
     }
 }
 
-export class CategoryValidator extends ClassValidatorFields <CategoryRule> {
+export class CategoryValidator extends ClassValidatorFields <CategoryRules> {
     validate(data: CategoryProperties): boolean {
-        return super.validate(new CategoryRule(data));
+        return super.validate(new CategoryRules(data));
     }
     
+}
+
+export default class CategoryValidatorFactory {
+    static create() {
+        return new CategoryValidator();
+    }
 }
