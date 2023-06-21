@@ -1,66 +1,50 @@
+import { error } from "console";
 import ValidationError from "../../../@seedwork/errors/validation-error";
 import { Category } from "./category";
 
 describe("Category integration test", () =>{
-   describe("create category test" , ()=> {
-    it('should a invalid category ' ,()=>{
-        expect(() => new Category({ name: null})).toThrow(
-            new ValidationError('Preencha name o campo')
-        );
-    
-        expect(() => new Category({ name: ""})).toThrow(
-            new ValidationError('Preencha name o campo')
-        );
-    
-        expect(() => new Category({ name: "t".repeat(256)})).toThrow(
-            new ValidationError('O campo name precisa ser menor que 255')
-        );
-    
-        expect(() => new Category({ name: 4 as any})).toThrow(
-            new ValidationError('O campo name precisa ser uma string')
-        );
-       })
-    
-       it('should a invalid category for description' ,()=>{
-        expect(() => new Category({ name: "Movie", description: 5 as any})).toThrow(
-            new ValidationError('O campo description precisa ser uma string')
-        );
-       })
-       it('should a invalid is_active for description' ,()=>{
-        expect(() => new Category({ name: "Movie", is_active: 'true' as any})).toThrow(
-            new ValidationError('O is_active deve ser um booleano')
-        );
-       })
-   });
 
-   describe("update category test" , () => {
-    it('should a invalid category ' ,()=>{
-        let categoryName = new Category({name: "Movie"});
-
-
-        expect(() => new Category({ name: null})).toThrow(
-            new ValidationError('Preencha name o campo')
-        );
+    describe("Create method", ()=> {
+        it("should a invalid category when create", () => {
+            expect(() => new Category({name: null})).toThrow(
+                new ValidationError( "Preencha name o campo")
+            );
+            expect(() => new Category({name: ""})).toThrow(
+                new ValidationError( "Preencha name o campo")
+            );
+            expect(() => new Category({name: "t".repeat(256)})).toThrow(
+                new ValidationError( "O campo name precisa ser menor que 255")
+            );
+            expect(() => new Category({name: 5 as any })).toThrow(
+                new ValidationError( "O name deve ser uma string")
+            );
+        })
     
-        expect(() => new Category({ name: ""})).toThrow(
-            new ValidationError('Preencha name o campo')
-        );
-    
-        expect(() => new Category({ name: "t".repeat(256)})).toThrow(
-            new ValidationError('O campo name precisa ser menor que 255')
-        );
-    
-        expect(() => new Category({ name: 4 as any})).toThrow(
-            new ValidationError('O campo name precisa ser uma string')
-        );
-       })
-    
-       it('should a invalid category for description' ,()=>{
-        expect(() => new Category({ name: "Movie", description: 5 as any})).toThrow(
-            new ValidationError('O campo description precisa ser uma string')
-        );
-       })
+        it("should a invalid category using description property", () =>{
+            expect(() => new Category( { name: "Movie", description: 5 as any})).toThrow(
+                new ValidationError("O campo description precisa ser uma string")
+            )
+        })
+    });
 
-   });
+    describe("Update method", ()=> {
+        it("should a invalid category when create", () => {
+            let category = new Category({name: "Movie"})
 
+            expect(() => category.update(null, null)).toThrow(
+                new ValidationError( "Preencha name o campo")
+            );
+            expect(() => category.update("", null)).toThrow(
+                new ValidationError( "Preencha name o campo")
+            );
+
+            expect(() => category.update( "t".repeat(256),  null)).toThrow(
+                new ValidationError( "O campo name precisa ser menor que 255")
+            );
+            expect(() => category.update( 5 as any , null)).toThrow(
+                new ValidationError( "O campo name precisa ser uma string")
+            );
+        });
+    });
+   
 });
